@@ -21,9 +21,8 @@ const main = async (): Promise<void> => {
   );
   await fs.promises.writeFile(
     "src/transform.ts",
-    result.transform.toString(),
+    result.transformTsCode,
     "utf8",
   );
-  console.log(result.transform.toString());
 };
 main().catch(console.error);
