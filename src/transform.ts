@@ -15,76 +15,71 @@ export function transform($input: unknown): IAutoView.IAutoViewComponentProps {
 
 
 function visualizeData(input: IAutoViewTransformerInputType): IAutoView.IAutoViewComponentProps {
-    // Helper function to transform age from number to string
-    function transformAge(age: number): string {
-        return age.toString();
-    }
-
-    // Process the input data and perform necessary transformation
+    // Transform the input data to add an ageString property
     const processedData = {
-        name: input.name,
-        age: transformAge(input.age),
-        email: input.email,
-        introduction: input.introduction,
-        thumbnail: input.thumbnail
+        ...input,
+        ageString: input.age?.toString() ?? ""
     };
 
-    // Create props for the AutoViewImageAvatar component
+    // Create the AutoView components based on the component plan
     const imageAvatar: IAutoView.IAutoViewImageAvatarProps = {
-        type: "ImageAvatar",
         src: processedData.thumbnail,
         name: processedData.name,
-        size: 40
+        type: "ImageAvatar"
     };
 
-    // Create props for the AutoViewTypography component (for showing the user's name)
     const nameTypography: IAutoView.IAutoViewTypographyProps = {
-        type: "Typography",
+        children: processedData.name,
         variant: "h4",
-        children: processedData.name
+        type: "Typography"
     };
 
-    // Create props for the AutoViewTypography component (for showing the user's email)
     const emailTypography: IAutoView.IAutoViewTypographyProps = {
-        type: "Typography",
-        variant: "caption",
-        color: "#666",
-        children: processedData.email
-    };
-
-    // Create props for the AutoViewDivider component to separate sections
-    const divider: IAutoView.IAutoViewDividerProps = {
-        type: "Divider",
-        orientation: "horizontal",
-        variant: "dotted",
-        color: "#ccc"
-    };
-
-    // Create props for the AutoViewStats component to display the age as a statistic
-    const stats: IAutoView.IAutoViewStatsProps = {
-        type: "Stats",
-        title: "Age",
-        value: processedData.age,
-        precision: 0
-    };
-
-    // Create props for the AutoViewTypography component (for the user's introduction)
-    const introductionTypography: IAutoView.IAutoViewTypographyProps = {
-        type: "Typography",
+        children: processedData.email,
         variant: "body1",
-        children: processedData.introduction
+        type: "Typography"
     };
 
-    // Wrap individual components into a single StackedList to represent the entire visualization
+    const ageStats: IAutoView.IAutoViewStatsProps = {
+        title: "Age",
+        value: processedData.ageString,
+        type: "Stats"
+    };
+
+    const divider: IAutoView.IAutoViewDividerProps = {
+        orientation: "horizontal",
+        variant: "solid",
+        color: "gray",
+        type: "Divider"
+    };
+
+    const introTypography: IAutoView.IAutoViewTypographyProps = {
+        children: processedData.introduction,
+        variant: "body2",
+        type: "Typography"
+    };
+
+    // Aggregate the above components into a StackedList to represent multiple UI elements.
+    // The first stacked item contains the profile header (avatar, name, email, age).
+    // The second stacked item contains the divider and the introduction.
     const stackedList: IAutoView.IAutoViewStackedListProps = {
         type: "StackedList",
+        gap: 8, // gap between items
         items: [
-            { children: [ imageAvatar ] },
-            { children: [ nameTypography ] },
-            { children: [ emailTypography ] },
-            { children: [ divider ] },
-            { children: [ stats ] },
-            { children: [ introductionTypography ] }
+            {
+                children: [
+                    imageAvatar,
+                    nameTypography,
+                    emailTypography,
+                    ageStats
+                ]
+            },
+            {
+                children: [
+                    divider,
+                    introTypography
+                ]
+            }
         ]
     };
 
