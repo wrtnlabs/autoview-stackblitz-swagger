@@ -1,0 +1,45 @@
+{
+  "type": "module",
+  "name": "@autoview/stackblitz-playground",
+  "version": "0.1.0",
+  "description": "Autoview playground running on StackBlitz",
+  "scripts": {
+    "generate": "tsc -p tsconfig.generate.json && node lib/generate.js",
+    "prepare": "node build/env.cjs && ts-patch install",
+    "start": "vite"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wrtnlabs/autoview-stackblitz-playground"
+  },
+  "author": "Wrtn Technologies",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wrtnlabs/autoview-stackblitz-playground/issues"
+  },
+  "homepage": "https://github.com/wrtnlabs/autoview-stackblitz-playground",
+  "dependencies": {
+    "@autoview/agent": "^2.0.19",
+    "@autoview/compiler": "^2.0.19",
+    "@autoview/interface": "^2.0.19",
+    "@autoview/ui": "^2.0.19",
+    "dotenv": "^16.4.7",
+    "openai": "^4.88.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "typia": "^8.0.3"
+  },
+  "devDependencies": {
+    "@ryoppippi/unplugin-typia": "^2.0.3",
+    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
+    "@types/node": "^22.13.10",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "prettier": "^3.5.3",
+    "ts-node": "^10.9.2",
+    "ts-patch": "^3.3.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.2"
+  }
+}
