@@ -1,7 +1,7 @@
 # AutoView Playground
 Automate your frontend development.
 
-Modify [`src/YourSchema.ts`](./src/YourSchema.ts) type, and run `npm run generate` command after assigning your OpenAI API key into the [`.env`](./.env) file
+Modify [`src/YourSchema.ts`](./src/YourSchema.ts) type, and run `npm run generate` command after assigning your OpenAI API key into the [`.env`](./.env) file.
 
 Then `@autoview` will generate frontend rendering code for the `YourSchema` type, and the newly generated code would be written in the [`src/transform.ts`](./src/transform.ts) file. Also, following the changed interface type, website of right side would be automatically updated too.
 
