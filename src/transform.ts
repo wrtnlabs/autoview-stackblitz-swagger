@@ -15,70 +15,53 @@ export function transform($input: unknown): IAutoView.IAutoViewComponentProps {
 
 
 function visualizeData(input: IAutoViewTransformerInputType): IAutoView.IAutoViewComponentProps {
-    // Transform the input data to add an ageString property
-    const processedData = {
-        ...input,
-        ageString: input.age?.toString() ?? ""
+    // Create an ImageAvatar component using thumbnail and name from the input data
+    const avatar: IAutoView.IAutoViewImageAvatarProps = {
+        type: "ImageAvatar",
+        src: input.thumbnail,
+        name: input.name,
+        size: 40
     };
 
-    // Create the AutoView components based on the component plan
-    const imageAvatar: IAutoView.IAutoViewImageAvatarProps = {
-        src: processedData.thumbnail,
-        name: processedData.name,
-        type: "ImageAvatar"
-    };
-
+    // Create a Typography component for the member's name with variant "h4"
     const nameTypography: IAutoView.IAutoViewTypographyProps = {
-        children: processedData.name,
-        variant: "h4",
-        type: "Typography"
+        type: "Typography",
+        children: input.name,
+        variant: "h4"
     };
 
-    const emailTypography: IAutoView.IAutoViewTypographyProps = {
-        children: processedData.email,
-        variant: "body1",
-        type: "Typography"
-    };
-
+    // Create a Stats component to display the age, converting the number to a string
     const ageStats: IAutoView.IAutoViewStatsProps = {
+        type: "Stats",
         title: "Age",
-        value: processedData.ageString,
-        type: "Stats"
+        value: String(input.age)
     };
 
-    const divider: IAutoView.IAutoViewDividerProps = {
-        orientation: "horizontal",
-        variant: "solid",
-        color: "gray",
-        type: "Divider"
-    };
-
-    const introTypography: IAutoView.IAutoViewTypographyProps = {
-        children: processedData.introduction,
+    // Create a Typography component for the email with variant "body2" and gray color
+    const emailTypography: IAutoView.IAutoViewTypographyProps = {
+        type: "Typography",
+        children: input.email,
         variant: "body2",
-        type: "Typography"
+        color: "gray"
     };
 
-    // Aggregate the above components into a StackedList to represent multiple UI elements.
-    // The first stacked item contains the profile header (avatar, name, email, age).
-    // The second stacked item contains the divider and the introduction.
+    // Create a Typography component for the introduction with variant "body1"
+    const introTypography: IAutoView.IAutoViewTypographyProps = {
+        type: "Typography",
+        children: input.introduction,
+        variant: "body1"
+    };
+
+    // Combine all components into a single vertical list (StackedList)
+    // This allows the overall output to be a single IAutoViewComponentProps
     const stackedList: IAutoView.IAutoViewStackedListProps = {
         type: "StackedList",
-        gap: 8, // gap between items
+        gap: 8,  // Optional: gap between list items
         items: [
             {
-                children: [
-                    imageAvatar,
-                    nameTypography,
-                    emailTypography,
-                    ageStats
-                ]
-            },
-            {
-                children: [
-                    divider,
-                    introTypography
-                ]
+                // Group all components in a single stacked list item.
+                // This mirrors the layout of the React fragment in the component plan.
+                children: [avatar, nameTypography, ageStats, emailTypography, introTypography]
             }
         ]
     };
