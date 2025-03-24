@@ -22,6 +22,15 @@ function Application() {
           <li className="py-1">
             Run <CodeBlock>npm run generate</CodeBlock> to generate the
             component.
+            <ul className="list-disc list-inside text-xs mt-2 pl-3 text-gray-500">
+              <li className="py-0.5">
+                It takes some time (about a minute) to generate the component.
+              </li>
+              <li className="py-0.5">
+                You can see the generated code in{" "}
+                <CodeBlock>src/transform.ts</CodeBlock>
+              </li>
+            </ul>
           </li>
           <li className="py-1">
             Run <CodeBlock>npm run start</CodeBlock> to see the component in
