@@ -23,12 +23,10 @@
     "@autoview/compiler": "^2.0.30",
     "@autoview/interface": "^2.0.30",
     "@autoview/ui": "^2.0.30",
-    "@tailwindcss/vite": "^4.0.15",
     "dotenv": "^16.4.7",
     "openai": "^4.88.0",
     "react": "^18",
     "react-dom": "^18",
-    "tailwindcss": "^4.0.15",
     "typia": "^8.0.3"
   },
   "devDependencies": {
