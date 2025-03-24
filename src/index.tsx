@@ -3,13 +3,18 @@ import { renderComponent } from "@autoview/ui";
 import { createRoot } from "react-dom/client";
 import typia from "typia";
 
-import { YourSchema } from "./YourSchema";
+import { YourSchema, value } from "./YourSchema";
 import { transform } from "./transform";
 
 function Application() {
   return (
     <div className="max-w-[512px] mx-auto px-4 py-8">
       <h1 className="text-2xl font-bold text-center">AutoView Playground</h1>
+      <Section title="Result">
+        <div className="mt-8">
+          <AutoViewComponent />
+        </div>
+      </Section>
       <Section title="How to use">
         <ol className="list-decimal list-inside text-xs mt-4">
           <li className="py-1">
@@ -17,7 +22,7 @@ function Application() {
           </li>
           <li className="py-1">
             Edit <CodeBlock>src/YourSchema.ts</CodeBlock> to define your own
-            schema.
+            schema (and value).
           </li>
           <li className="py-1">
             Run <CodeBlock>npm run generate</CodeBlock> to generate the
@@ -37,11 +42,10 @@ function Application() {
             action.
           </li>
         </ol>
-      </Section>
-      <Section title="Result">
-        <div className="mt-8">
-          <AutoViewComponent />
-        </div>
+        <p className="text-xs mt-4 text-gray-600">
+          <span className="text-red-500">*</span> All operations are run in your
+          browser only, so no data is sent to the server.
+        </p>
       </Section>
     </div>
   );
@@ -71,7 +75,7 @@ function CodeBlock({ children }: { children: React.ReactNode }) {
 }
 
 function AutoViewComponent() {
-  const input: YourSchema = typia.random<YourSchema>();
+  const input: YourSchema = value ?? typia.random<YourSchema>();
   const props: IAutoViewComponentProps = transform(input);
   return renderComponent(props);
 }
