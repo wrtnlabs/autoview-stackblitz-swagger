@@ -5,7 +5,7 @@
   "description": "Autoview playground running on StackBlitz",
   "scripts": {
     "generate": "tsc -p tsconfig.generate.json && node lib/generate.js",
-    "prepare": "node build/env.cjs && ts-patch install",
+    "prepare": "ts-patch install",
     "start": "vite"
   },
   "repository": {

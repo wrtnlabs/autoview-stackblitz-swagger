@@ -3,6 +3,5 @@ node_modules/
 bin/
 lib/
 
-.env
 package-lock.json
 pnpm-lock.yaml
