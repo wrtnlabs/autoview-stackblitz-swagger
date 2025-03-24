@@ -1,13 +1,11 @@
 import { MainAgent } from "@autoview/agent";
-import dotenv from "dotenv";
 import fs from "fs";
 import OpenAI from "openai";
 import { exit } from "process";
 import typia from "typia";
 
+import env from "./env";
 import { YourSchema } from "./YourSchema";
-
-dotenv.config();
 
 const main = async (): Promise<void> => {
   checkApiKey();
@@ -16,9 +14,9 @@ const main = async (): Promise<void> => {
     {
       type: "chatgpt",
       api: new OpenAI({
-        apiKey: typia.assert<string>(process.env.OPENAI_API_KEY),
+        apiKey: typia.assert<string>(env.OPENAI_API_KEY),
       }),
-      model: typia.assert<OpenAI.ChatModel>(process.env.OPENAI_MODEL),
+      model: typia.assert<OpenAI.ChatModel>(env.OPENAI_MODEL),
     },
     typia.llm.parameters<YourSchema, "chatgpt">(),
   );
@@ -38,7 +36,7 @@ function checkApiKey(): void {
     console.error("");
     console.error("[========= API KEY ERROR =========]");
     console.error("");
-    console.error("`OPENAI_API_KEY` is not set; please open the `.env` file and feed your own key");
+    console.error("`OPENAI_API_KEY` is not set; please open the `src/env.ts` file and feed your own key");
     console.error("");
     console.error("[=================================]");
     console.error("");
