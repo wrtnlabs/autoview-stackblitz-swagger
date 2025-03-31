@@ -23,12 +23,13 @@
     "@autoview/compiler": "^2.0.30",
     "@autoview/interface": "^2.0.30",
     "@autoview/ui": "^2.0.30",
-    "@samchon/openapi": "^3.2.1",
+    "@samchon/openapi": "^3.2.3",
+    "@samchon/shopping-api": "^0.16.0",
     "dotenv": "^16.4.7",
     "openai": "^4.88.0",
     "react": "^18",
     "react-dom": "^18",
-    "typia": "^8.0.4"
+    "typia": "^8.1.0"
   },
   "devDependencies": {
     "@emotion/react": "^11.14.0",
@@ -40,7 +41,7 @@
     "@mui/material": "^6.4.8",
     "@ryoppippi/unplugin-typia": "^2.0.3",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
-    "@types/node": "^22.13.10",
+    "@types/node": "^22.13.14",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@vitejs/plugin-react": "^4.3.4",

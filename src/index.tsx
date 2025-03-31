@@ -1,21 +1,78 @@
-import { IAutoViewComponentProps } from "@autoview/interface";
 import { renderComponent } from "@autoview/ui";
+import ShoppingApi from "@samchon/shopping-api";
+import { IPage } from "@samchon/shopping-api/lib/structures/common/IPage";
+import { IShoppingSale } from "@samchon/shopping-api/lib/structures/shoppings/sales/IShoppingSale";
+import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import typia from "typia";
 
-import { YourSchema, value } from "./YourSchema";
-import { transform } from "./transform";
+import { transform as transformPage } from "./transformPage";
+import { transform as transformSale } from "./transformSale";
+
+function AutoViewComponent() {
+  useEffect(() => {
+    const execute = async () => {
+      // AUTHENTICATION
+      const connection: ShoppingApi.IConnection = {
+        host: "https://shopping-be.wrtn.ai",
+      };
+      await ShoppingApi.functional.shoppings.customers.authenticate.create(
+        connection,
+        {
+          channel_code: "samchon",
+          external_user: null,
+          href: window.location.href,
+          referrer: window.document.referrer,
+        },
+      );
+
+      // GET LIST OF SUMMARIZED SALES
+      const page: IPage<IShoppingSale.ISummary> =
+        await ShoppingApi.functional.shoppings.customers.sales.index(
+          connection,
+          {
+            page: 1,
+            limit: 10,
+          },
+        );
+      setPage(page);
+
+      // GET SALE DETAIL
+      const sale: IShoppingSale =
+        await ShoppingApi.functional.shoppings.customers.sales.at(
+          connection,
+          page.data[1].id,
+        );
+      setSale(sale);
+    };
+    execute().catch(console.error);
+  }, []);
+
+  // WAIT FOR LOADING
+  const [page, setPage] = useState<IPage<IShoppingSale.ISummary> | null>(null);
+  const [sale, setSale] = useState<IShoppingSale | null>(null);
+  if (page === null || sale === null) return <div>Loading...</div>;
+
+  // RENDER
+  return (
+    <>
+      <Section title={`PATCH /shoppings/customers/sales`}>
+        <hr />
+        <div className="mt-8">{renderComponent(transformPage(page))}</div>
+      </Section>
+      <Section title="GET /shoppings/customers/sales/${id}">
+        <hr />
+        <div className="mt-8">{renderComponent(transformSale(sale))}</div>
+      </Section>
+    </>
+  );
+}
 
 function Application() {
   return (
     <div className="max-w-[512px] mx-auto px-4 py-8">
       <h1 className="text-2xl font-bold text-center">AutoView Playground</h1>
-      <Section title="Result">
-        <div className="mt-8">
-          <AutoViewComponent />
-        </div>
-      </Section>
       <Section title="How to use">
+        <hr />
         <ol className="list-decimal list-inside text-xs mt-4">
           <li className="py-1">
             Edit <CodeBlock>src/env.ts</CodeBlock> to set your API key.
@@ -47,6 +104,7 @@ function Application() {
           browser only, so no data is sent to the server.
         </p>
       </Section>
+      <AutoViewComponent />
     </div>
   );
 }
@@ -55,7 +113,7 @@ function Section({
   title,
   children,
 }: {
-  title: string;
+  title: string | React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
@@ -72,12 +130,6 @@ function CodeBlock({ children }: { children: React.ReactNode }) {
       {children}
     </code>
   );
-}
-
-function AutoViewComponent() {
-  const input: YourSchema = value ?? typia.random<YourSchema>();
-  const props: IAutoViewComponentProps = transform(input);
-  return renderComponent(props);
 }
 
 const root: HTMLElement = window.document.getElementById("root")!;
